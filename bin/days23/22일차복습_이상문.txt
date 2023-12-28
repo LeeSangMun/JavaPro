@@ -1,0 +1,188 @@
+﻿1. 컬렉션 클래스의 종류 및 특징에 대해서 설명하세요. 
+	Collection
+	  ㄴ List - 저장 순서 o, 중복 o
+	       ㄴ ArrayList		- 배열을 바탕으로 저장함, 순차적으로 추가,삽입은 빠르다.
+			  	  삽입, 삭제 느리다.
+					
+	       ㄴ LinkedList		- Node 끼리 연결되있다. 노드가 많을수록 접근속도가 느리다.
+				  삽입, 삭제 빠르다.
+	       ㄴ Vector		- ArrayList랑 동일, 차이점은 Vector는 멀티쓰레드에 안전하다.
+	       ㄴ Stack		- LIFO구조 추가할땐 push(), 빼낼땐 pop(), 읽기는 peek(), 
+				  empty(), search() 사용
+	       ㄴ Queue		- FIFO구조 추가할땐 offer(), 빼낼땐 pull(), 읽기는 peek(), 
+				  isEmpty(), search() 사용 
+				  인터페이스라서 Queue를 구현한 클래스를 사용해야함
+	       ㄴ Deque		- Queue에서 양방향으로 추가가 가능한 인터페이스
+	       ㄴ PriorityQueue	- 우선순위가 있는 큐
+
+	  ㄴ set - 저장 순서 x, 중복 x
+	       ㄴ HashSet - 해싱기법을 사용
+		// (저장 순서를 유지하고 싶다면 LinkedHashSet 사용)
+	       ㄴ TreeSet
+
+
+
+	Map - (key, value)한쌍 = 엔트리, 저장 순서 x, Key 중복 x, value 중복 o
+	  ㄴ HashMap
+	  ㄴTreeMap
+	  ㄴ HashTable
+
+
+2. 로또 게임 횟수를 입력받아서 게임 횟수 만큼 로또 번호를 출력하는 전체 코딩을 하세요.
+  ( 조건 : 컬렉션 클래스 선택 후 사용 )
+  ( 조건 : 각 로또번호가 오름차순 정렬 후 출력 )
+    
+[출력형식]  
+1게임 : [09][14][18][27][34][36]
+2게임 : [12][18][29][36][39][42]
+3게임 : [09][14][20][24][27][35]
+4게임 : [06][24][29][32][39][42]
+5게임 : [02][11][23][42][44][45]  
+
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		try(Scanner sc = new Scanner(System.in)) {
+			System.out.print("> 게임 횟수 입력 ? ");
+			int gameCnt = sc.nextInt();
+			ArrayList lottos = new ArrayList();
+			HashSet temp = null;
+			ArrayList lotto = null;
+			
+			for(int i=0; i<gameCnt; i++) {
+				temp = new HashSet();
+				fillLotto(temp);
+				lotto = new ArrayList(temp);
+				lotto.sort(null);
+				lottos.add(lotto);
+			}
+			
+			for (int i = 0; i < gameCnt; i++) {
+				System.out.printf("%d게임 : ", i+1);
+				lotto = (ArrayList) lottos.get(i);
+				dispLotto(lotto);
+			} // for
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void dispLotto(ArrayList lotto) {
+		Iterator ir = lotto.iterator();
+		while (ir.hasNext()) {
+			int num = (int) ir.next();
+			System.out.printf("[%02d]", num);
+		}
+		System.out.println();
+	}
+
+	private static void fillLotto(HashSet lotto) {
+		while (lotto.size() < 6) {
+			int num = (int)(Math.random()*45) + 1;
+			lotto.add(num);
+		}
+	}
+
+}
+ 
+3. 3반 30명 학생의 이,국,영,수,총,평,등,전등를 처리하는 코딩을 하세요.
+  ( 조건 : 컬렉션 클래스 선택 후 사용 )
+
+
+public class Ex01 {
+	static int studentCnt = 0;
+	
+	public static void main(String[] args) throws IOException {
+		final int CLASS_COUNT = 3;
+		final int CLASS_STUDENT_CNT = 30;
+		
+		ArrayList banList = null;
+		ArrayList all = new ArrayList();
+		for (int i = 0; i < CLASS_COUNT; i++) {
+			all.add(new ArrayList());
+		} // for
+		
+		int no = 0;
+		int ban = 0;
+		char code = 0;
+		
+		do {
+			Scanner sc = new Scanner(System.in);
+			System.out.print("> 반 입력 ? ");
+			ban = sc.nextInt();
+			
+			banList = (ArrayList) all.get(ban-1);
+			
+			System.out.print("> 학생의 이,국,영,수 입력 ? ");
+			String name = getName();
+			int kor = getScore();
+			int eng = getScore();
+			int mat = getScore();
+			int tot = kor+eng+mat;
+			double avg = (double)tot/3;
+			int rank = 1;
+			int wrank = 1;
+			Student s = new Student(banList.size()+1, name, kor, eng, mat, tot, avg, rank, wrank);
+			banList.add(s);
+			
+			studentCnt++;
+			
+			
+			
+			System.out.print("> 계속 입력 ? ");
+			code = (char)System.in.read();
+			code = Character.toUpperCase(code);
+			System.in.skip(System.in.available());
+		} while(code == 'Y');
+		
+		// 등수 처리
+		/*
+		ArrayList tmp = null;
+		Student s1, s2;
+		for (int i = 0; i < all.size(); i++) {
+			tmp = (ArrayList) all.get(i);
+			for (int j = 0; j < tmp.size(); j++) {
+				s1 = (Student) tmp.get(j);
+				
+				for (int i2 = 0; i2 < all.size(); i2++) {
+					for (int j2 = 0; j2 < tmp.size(); j2++) {
+						
+					} // for
+				} // for
+			} // for
+		} // for
+		*/
+		
+		dispStudent(all);
+	}
+	
+	private static void dispStudent(ArrayList all) {
+		Iterator ir = null;
+		ArrayList banList  = null;
+		System.out.printf("\t\t전체 학생 수(%d)\n", studentCnt);
+		for (int i = 0; i < all.size(); i++) {
+			banList = (ArrayList) all.get(i);
+			System.out.printf("%d반(%d)\n", i+1, banList.size());
+			ir = banList.iterator();
+			while (ir.hasNext()) {
+				Student s = (Student) ir.next();
+				System.out.println(s);
+			}
+		} // for
+	}
+
+	public static String getName() {
+		Random rnd = new Random();
+		char[] nameArr = new char[3];
+		for(int i=0; i<nameArr.length; i++) {
+			nameArr[i] = (char)(rnd.nextInt('힣'-'가'+1) + '가');
+		}
+		
+		return new String(nameArr);
+	}
+
+	public static int getScore() {
+		return (int)(Math.random()*101);
+	}
+}

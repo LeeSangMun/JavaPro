@@ -1,0 +1,170 @@
+﻿1. Date 타입을 Calendar 타입으로 변환하는 코딩을 하세요.
+
+	Calendar c = Calendar.getInstance();
+	c.setTime(new Date());
+
+1-2. Calendar 타입을  Date 타입으로 변환하는 코딩을 하세요.
+
+	Calendar c = Calendar.getInstance();
+	Date d = c.getTime();
+
+2. String source = "2023/08/10 (목) 12:23:01"
+문자열 source를 Calendar 객체로 변환해 
+"2023년 8월 10일 (목)"으로 출력하는 코딩을 하세요 .
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		String source = "2023/08/10 (목) 12:23:01";
+		String pattern = "yyyy/MM/dd (E) hh:mm:ss";
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(sdf.parse(source));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		pattern = "yyyy년 MM월 dd일 (E)";
+		
+		System.out.println(toStringDate(c, pattern));
+	}
+
+	static String toStringDate(Object obj, String pattern) {
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		if(obj != null && obj instanceof Calendar) {
+			Calendar c = (Calendar)obj;
+			return sdf.format(c.getTime());
+		}
+		
+		return null;
+	}
+}
+
+
+3-1. java.time 패키지에 대해서 설명하세요. 
+
+	날짜와 시간을 다루는 핵심 클래스를 제공한다.
+
+3-2. java.time패키지의 4가지 하위 패키지에 대해서 설명하세요 .
+
+	java.time.chrono	- 표준(IOS)이 아닌 달력 시스템을 위한 클래스 제공
+	java.time.format	- 형식화, 파싱을 하는 클래스 제공
+	java.time.temporal	- 날짜,시간의 필드와 단위를 위한 클래스 제공
+	java.time.zone	- 시간대의 클래스 제공
+
+3-3. java.time 패키지의 핵심 클래스에 대해서 설명하세요. 
+
+	LocalDate	- 날짜를 다루는 클래스
+	LocalTime	- 시간을 다루는 클래스
+	LocalDateTime	- 날짜 + 시간을 다루는 클래스
+	ZonedDateTime	- 날짜 + 시간 + 시간대를 다루는 클래스
+
+	Temporal, TemporalAdjuster 인터페이스를 구현
+
+3-4. Period, Duration 클래스에 대해서 설명하세요.
+
+	Period	- 날짜 사이의 간격을 나타내는 클래스
+	Duration 	- 시간 사이의 간격을 나타내는 클래스
+
+	TemporalAmount 인터페이스 구현
+
+3-5. TemporalUnit 인터페이스와  ChronoUnit 열거형에 대해서 설명하세요 . 
+
+	날짜와 시간의 단위를 제공한다.
+
+3-6. TemporalField 인터페이스와 ChronoField 열거형에 대해서 설명하세요 .
+
+	날짜와 시간의 필드를 제공한다.
+
+3-7. java.time 패키지의 핵심 클래스의 객체 생성 방법에 대해서 설명하세요 .
+
+	new 연산자 사용 x
+	now() 또는 of() 사용
+
+4. java.time 패키지의 핵심 클래스
+ 1) 객체 생성하는 방법
+	
+	1. LocalDate ld = LocalDate.now();
+	2. LocalDate ld = LocalDate.of(2023, 8, 10);
+
+ 2) 특정 필드를 얻어오는 방법
+
+	get(필드) 또는 getXXX()
+
+ 3) 특정 필드를 수정하는 방법
+
+	with() , plus(), minus()
+ 
+5. 개강일(2023.7.13)로부터 100일 되는 날짜를 출력하세요. 
+ 1) Date 클래스 사용
+
+	public static void main(String[] args) {
+		Date d = new Date(2023-1900, 7-1, 13);
+		d.setDate(d.getDate() + 100);
+		System.out.println(d.toLocaleString());
+	}
+
+ 2) Calendar 클래스 사용
+
+	public static void main(String[] args) {
+		Calendar c = new GregorianCalendar(2023, 7-1, 13);
+		c.add(Calendar.DATE, 100);
+		System.out.println(c.getTime().toLocaleString());
+	}
+
+ 3) LocalDate 클래스 사용
+
+	public static void main(String[] args) {
+		LocalDate ld = LocalDate.of(2023, 7, 13);
+		ld = ld.plus(100, ChronoUnit.DAYS);
+		System.out.println(ld);
+	}
+
+  
+6. 수료일(2023.12.27)까지 남은 기간을 아래와 같이 출력하세요 . 
+   예)
+   27일 22시간 17분 1초 883밀초  
+
+	public static void main(String[] args) {
+		int[] units = {1000*60*60*24, 1000*60*60, 1000*60, 1000, 1};
+		String[] sunits = {"일", "시간", "분", "초", "밀초"};
+		
+		LocalDateTime ldt = LocalDateTime.now();
+		LocalDateTime ldt2 = LocalDateTime.of(2023, 12, 27, 0, 0, 0);
+		long diff = ldt.until(ldt2, ChronoUnit.MILLIS);
+		
+		long div;
+		for (int i = 0; i < units.length; i++) {
+			div = diff/units[i];
+			System.out.printf("%d%s ", div, sunits[i]);
+			diff %= units[i];
+		} // for
+		
+	}
+
+
+7. String source = "번호:1,이름:홍길동,주소:서울 양천구 목동";
+   위의 문자열에서 MessageFormat 클래스를 사용해서
+   번호,이름,주소만 얻어와서 아래와 같이 출력하세요.
+   
+   [출력형식]
+    1
+	홍길동
+	서울 양천구 목동
+
+	public static void main(String[] args) {
+		String source = "번호:1,이름:홍길동,주소:서울 양천구 목동";
+		String pattern = "번호:{0},이름:{1},주소:{2}";
+		
+		MessageFormat mf = new MessageFormat(pattern);
+		try {
+			Object[] objs = mf.parse(source);
+			for(Object obj : objs) {
+				System.out.println(obj);
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+   

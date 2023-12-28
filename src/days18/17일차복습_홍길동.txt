@@ -1,0 +1,60 @@
+﻿1. 막대기 자르기(CutOperation) 전체 코딩을  각 라인별로 상세하게 설명하세요.
+package days17; 			
+
+import java.util.Arrays; 
+import java.util.Scanner;
+
+public class CutOperation {
+	
+	public static void main(String[] args) {
+		 
+		Scanner scanner = new Scanner(System.in); 	// 키보드로부터 입력을 받기위한 Scannner사용
+		int n = scanner.nextInt();			// 첫 정수 입력 받음 막대 수
+		int [] sticks = new int[n];			// 각 막대 길이를 받을 배열 선
+		int sticksLength = sticks.length;		// 막대배열 길이를 사용하기 위한 변수
+		for (int i = 0; i < sticksLength; i++) {		// 공백이나 개행으로 구분해서 연속으로 입력받음
+			sticks[i] = scanner.nextInt();
+		} // for
+		Arrays.sort(sticks);  // 오름차순 정렬		// 막대배열 오름차순으로 정렬
+		System.out.println( Arrays.toString(sticks)); 	// 확인하기 위한 출력
+		
+		int index = 0;				// 막대를 잘라야 하는 위치값
+		int sticksCount = sticksLength - index;		// 남은 막대 수
+		System.out.println(sticksCount);		// 처음 막대 수를 출력
+		
+		for (int i = 0; i < sticksLength; i++) {		
+			if( sticks[index] != sticks[i] ) {		// index와 배열의 요소가 값이 다르면
+				index = i;			// 그 다음 작은값부터 index에 저장
+				sticksCount = sticksLength - index;	// 전체 막대 수에서 잘라진 막대수를 뺀 값
+				System.out.println(sticksCount);	// 남은 막대 수 출력
+			}
+			
+		} // for
+		
+	} // main
+
+}
+
+2.  days17.Ex01.java 파일을 읽어서 각 라인 번호를 붙여서 출력하는 코딩을 하세요.
+   ( 조건 : try~resources 문 사용 )
+
+
+	public static void main(String[] args) {
+		String fileName = System.getProperty("user.dir") + "\\src\\days17\\Ex01.java";
+		
+		try(FileReader fr = new FileReader(fileName);
+				BufferedReader br = new BufferedReader(fr);) {
+				String line = null;
+				int lineNumber = 1;
+				
+				while((line = br.readLine()) != null) {
+					System.out.printf("%d: %s\n", lineNumber++, line);
+				}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}

@@ -1,0 +1,155 @@
+﻿   
+1.  년도 year를 입력받아서 
+    입력받은 년도의 1월~12월 까지의 마지막 날짜를 출력하는 코딩을 하세요. 
+    ( 조건 : Date 클래스 사용 )
+    ( 조건 : Scanner 클래스 사용 + try~with~resource문 사용)
+    
+    실행결과 예제)
+    2005년 
+    
+	1월 : 31일
+	2월 : 28일
+	3월 : 31일
+	4월 : 30일
+	5월 : 31일
+	6월 : 30일
+	7월 : 31일
+	8월 : 31일
+	9월 : 30일
+	10월 : 31일
+	11월 : 30일
+	12월 : 31일
+
+	public static void main(String[] args) {
+		try (Scanner sc = new Scanner(System.in)) {
+			System.out.print("> 년도를 입력하세요 ? ");
+			int year = sc.nextInt();
+			Date d = new Date(year, 1, 1);
+			int date = d.getDate() - 1;
+			d.setDate(date);
+			System.out.printf("%d년\n\n", year);
+			
+			int m = 0;
+			for(int i=1; i<=12; i++) {
+				System.out.printf("%d월 : %d일\n", d.getMonth()+1, d.getDate());
+				m = d.getMonth() +2;
+				d.setMonth(m);
+				d.setDate(1);
+				date = d.getDate() - 1;
+				d.setDate(date);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+2. java.util.Date 클래스를 사용하여 달력 그리기.
+    
+   [출력결과]ㅂ
+   
+              2023.08
+   ┌─┬─┬─┬─┬─┬─┬─┐ 
+   │일│월│화│수│목│금│토│
+   ├─┼─┼─┼─┼─┼─┼─┤
+   │  │  │ 1│ 2│ 3│ 4│ 5│  
+   ├─┼─┼─┼─┼─┼─┼─┤
+   │ 6│ 7│ 8│*9│10│11│12│  
+   ├─┼─┼─┼─┼─┼─┼─┤
+   │13│14│15│16│17│18│19│  
+   ├─┼─┼─┼─┼─┼─┼─┤
+   │20│21│22│23│24│25│26│  
+   ├─┼─┼─┼─┼─┼─┼─┤
+   │27│28│29│30│31│  │  │
+   └─┴─┴─┴─┴─┴─┴─┘   
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		int year = 2023;
+		int month = 8;
+		
+		Date d = new Date(year-1900, month-1, 1);
+		int lastDay = getLastDay(year, month);
+		int dayOfWeek = d.getDay();
+		int date = d.getDate() - dayOfWeek;
+		d.setDate(date);
+		int m = 0;
+		System.out.printf("\t\t%d.%2d\n\n", year, month);
+		
+		System.out.println("┌──┬──┬──┬──┬──┬──┬──┐");
+		System.out.print("│  일  │  월  │  화  │  수  │  목  │  금  │  토  │");
+		
+		for(int i = 1; i<=35; i++) {
+			if(i%7 == 1) System.out.println("\n├──────┼──────┼──────┼──────┼──────┼──────┼──────┤");
+			m = d.getMonth()+1;
+			if(month == m) {
+				System.out.printf(d.getDay() == 6 ? "|%2d\t|" : "|%2d\t", d.getDate());
+			} else {
+				System.out.printf("|\t", i);
+			}
+			date = d.getDate() + 1;
+			d.setDate(date);
+		}
+		System.out.println();
+		
+		System.out.println("└──┴──┴──┴──┴──┴──┴──┘ ");
+		
+	}
+
+	private static int getLastDay(int year, int month) {
+		Date d = new Date(year, month, 1);
+		int date = d.getDate() - 1;
+		d.setDate(date);
+		return d.getDate();
+	}
+
+}
+	 
+	
+3.개강일(2023.7.13 9:00:00)로 부터 오늘까지 지난 일수 계산을 하세요.. 
+
+	public static void main(String[] args) {
+		int year = 2023;
+		int month = 7;
+		int date = 13;
+		int hour = 9;
+		int min = 0;
+		int sec = 0;
+		
+		Date today = new Date();
+		Date d = new Date(year-1900, month-1, date, hour, min, sec);
+		
+		long until = today.getTime() - d.getTime();
+		long a = until;
+		System.out.println(a);
+		a = until/1000;
+		System.out.println(a);
+		a /= 60;
+		System.out.println(a);
+		a /= 60;
+		System.out.println(a);
+		a /= 24;
+		System.out.println(a);
+		
+		System.out.printf("지난 일수 : %d", a);
+	}
+
+4. 설문조사 기간이 
+   시작일 2023.8.2    00:00:00
+   종료일  2023.8.15  18:00:00
+   일 때  오늘 현재 설문이 가능/불가능한지를 체크해서 출력하세요.
+   
+	public static void main(String[] args) {
+		Date start = new Date(2023-1900, 7, 2);
+		Date end = new Date(2023-1900, 7, 15, 18, 0, 0);
+		
+		Date today = new Date();
+		
+		if(today.after(start) && today.before(end)) {
+			System.out.println("설문조가가능");
+		} else {
+			System.out.println("설문조가불가능");
+		}
+	}
+

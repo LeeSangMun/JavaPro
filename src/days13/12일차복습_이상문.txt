@@ -1,0 +1,102 @@
+﻿1. 게임횟수를 입력받아서 로또 게임  
+  ㄱ. int [][] lottos ;
+
+public class Ex01 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("> 로또 게임 횟수 입력 ? ");
+		int lottoCount = sc.nextInt();
+		
+		int[][] lotto = new int[lottoCount][6];
+		
+		for (int i = 0; i < lotto.length; i++) {
+			fillLotto(lotto[i]);
+			System.out.printf("%d회\t\t", i+1);
+			dispLotto(lotto[i]);
+		} // for
+	}
+
+	private static void fillLotto(int[] lotto) {
+		int lottoNumber, index = 0;
+		
+		while(index <= 5) {
+			lottoNumber = (int)(Math.random()*45)+1;
+			
+			if(!isDuplicateLotto(lotto, lottoNumber, index)) {
+				lotto[index++] = lottoNumber;				
+			}
+		}
+	}
+	
+	private static boolean isDuplicateLotto(int[] lotto, int lottoNumber, int index) {
+		for (int i = 0; i < index; i++) {
+			if(lotto[i] == lottoNumber) {
+				return true;
+			}
+		} // for
+		
+		return false;
+	}
+
+	private static void dispLotto(int[] lotto) {
+		System.out.printf(Arrays.toString(lotto) + "\n");
+	}
+}
+
+2. 변수와 참조변수 설명
+
+	변수 - 값을 담고 있다.
+	참조변수 - 주소를 담고 있다. 배열, 클래스, 인터페이스가 있다.
+
+3. int [][] m = new int[5][5];
+   2차원 배열 m 을 선언 후 아래와 같이 채워 넣고 출력하는 코딩을 하세요
+   fillM(m) 구현
+   dispM(m) 구현
+   
+   [실행결과]    
+	[01][02][03][04][10]
+	[05][06][07][08][26]
+	[09][10][11][12][42]
+	[13][14][15][16][58]
+	[28][32][36][40][136]  
+
+	private static void fillM(int[][] m) {
+		int rowSum = 0, colSum = 0;
+		
+		for (int i = 0; i < m.length; i++) {
+			rowSum = 0;
+			for (int j = 0; j < m[i].length; j++) {
+				if(j < 4) {
+					m[i][j] = i*4+j+1;
+					rowSum += m[i][j];
+				} else {
+					m[i][j] = rowSum;
+				}
+			} // for
+		} // for
+		
+		for (int i = 0; i < m.length; i++) {
+			colSum = 0;
+			for (int j = 0; j < m[i].length; j++) {
+				if(j < 4) {
+					colSum += m[j][i];
+				} else {
+					m[j][i] = colSum;
+				}
+			} // for
+		} // for
+	}
+
+	private static void dispM(int[][] m) {
+		for(int[] a : m) {
+			for(int b : a) {
+				System.out.printf("[%02d]", b);
+			}
+			System.out.println();
+		}
+	}
+
+4. OOP에 대해서 설명하세요.	
+
+Object Oriented Programming
+어떤것이든 객체로 만들어서 객체끼리 상호작용하게 하는 프로그래밍이다.

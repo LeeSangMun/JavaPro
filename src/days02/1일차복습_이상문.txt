@@ -1,0 +1,101 @@
+﻿
+1. JDK 설치 확인 방법에 대해서 설명하세요.
+  ㄱ.  javac -version
+  ㄴ.  java -version
+
+2. JDK 를 설치 후 환경변수 설정에 대해서 설명하세요. 
+   
+  1) 변수이름  : [        JAVA_HOME           ]
+     변수값    : [         programfiles\JAVA\jdk          ]
+      
+                           
+  2) 변수이름  : [          Path         ]
+     변수값    : [         %JAVA_HOME%\bin          ]
+    
+3. 자바에서 
+  1) 클래스 선언 형식을 적으세요.   		
+  2) 함수(메서드) 선언 형식을 적으세요. 
+  3) 변수 선언 형식을 적으세요.  
+  4) 상수 선언 형식을 적으세요. 
+
+	1) [접근 제어자] [기타 제어자] class 클래스명 {}
+	2) [접근 제어자] [기타 제어자] 반환타입 함수명([매개변수...]) {
+		//실행문
+		[return 리턴값;]
+	}
+	3) 자료형 변수명 [=초깃값];
+	4) final 변수명 [=초깃값];
+
+4. 용어 정리
+
+  1) JDK              - 자바 개발 도구 (JRE + 자바 개발 프로그램(java.exe, javac.exe))       
+  2) JRE		- 자바 실행 환경(JVM + 클래스 라이브러리(Java API))
+  3) JVM		- 자바 가상 머신, 바이트 코드를 컴퓨터가 이해할 수 있는 기계어로 변환해줌
+  4) Java API	- 클래스 라이브러리
+
+5. 자바 프로그램의 기본 구조에 대해서 설명하세요.	
+	1) package 선언문
+	2) 자바는 객체지향 프로그래밍언어이기 때문에 반드시 시작 개체로 하는 하나의 클래스를 선언 해야함
+	3) 클래스명의 첫글자는 대문자로 해야한다.
+	4) 클래스명과 소스파일의 명은 같아야 한다.
+	5) 시작 객체는 시작/종료의 기능을 하는 main메서드가 필요 
+
+6. 메모장을 사용해서 
+   1) 소스파일( Test.java ) :
+      (ㄱ) 본인 이름 및 나이를 저장하는 변수를 선언하고
+      초기화 및 출력하는 코딩을 하세요.
+      (ㄴ) 출력 형식
+          이름 : "홍길동", 나이 : 20살입니다. 
+   
+   2) 자바 컴파일러  ( javac.exe )로 컴파일하고 
+   3) 자바 인터프리터( java.exe  )로 실행하세요. 
+
+	1) public class Test {
+		public static void main(String[] args) {
+			String name = "이상문";
+			int age = 26;
+			System.out.println(name);
+			System.out.println(age);
+
+			System.out.println("이름 : \"" + name + "\", 나이 : " + age + "입니다.");
+		}
+	}
+	
+	2) javac Test.java
+	3) java Test
+   
+7. 어제 배운 이클립스 단축키를  적어주세요.
+	1) 단축키 목록  :  Ctrl + Shift + L
+    	2) 단일행       : Ctrl + /
+	3) 다중행       :  Ctrl + Shift + /
+	4) 실행         : Ctrl + F11
+	5) 자동 완성    : Ctrl + SpaceBar	         
+	6)type comment  : Alt + Shift + J
+	7) 들여쓰기     : Ctrl + A, Ctrl + I
+	8) 코딩 복사    : Ctrl + Alt + 방향키
+	
+	[복습] 자주 사용한 이클립스의 단축키 정리.. 
+
+8. 아래 에러에 대해서 설명하세요.
+	1) Duplicate local variable age
+	2) 이창익 cannot be resolved to a variable
+	3) The local variable name may not have been initialized
+	4) Type mismatch: cannot convert from int to String
+	5) The left-hand side of an assignment must be a variable
+
+	1) 지역 변수가 중복 선언됨
+	2) 타입이 맞지 않은 변수를 사용했다.
+	3) 지역 변수가 초기화 되지 않고 사용해서 그렇다.
+	4) 타입이 일치하지 않아서 그렇다. int형을 String으로 변환해야 한다.
+	5) 변수가 할당되지 않았다.
+ 
+       
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    
+      

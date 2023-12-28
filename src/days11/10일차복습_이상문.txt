@@ -1,0 +1,129 @@
+﻿1. 30명 학생의 성적처리 ( 이름, 국,영,수, 총,평, 등수 )
+  ㄱ. 입력
+  ㄴ. 등수처리
+  ㄷ. 출력
+
+public class Ex01 {
+	public static void main(String[] args) throws IOException {
+		String name;
+		int kor, eng, mat, tot, rank;
+		double avg;
+		
+		int count = 0; // 학생 수
+		
+		final int STUDENT_COUNT = 30;
+		String[] names = new String[STUDENT_COUNT];
+		int[] kors = new int[STUDENT_COUNT];
+		int[] engs = new int[STUDENT_COUNT];
+		int[] mats = new int[STUDENT_COUNT];
+		int[] tots = new int[STUDENT_COUNT];
+		double[] avgs = new double[STUDENT_COUNT];
+		int[] ranks = new int[STUDENT_COUNT];
+		
+		Scanner sc = new Scanner(System.in);
+		char one = 'Y';
+		
+		do {
+			System.out.print("> 학생 이름,국,영,수 입력 ? ");
+			name = sc.next();
+			kor = sc.nextInt();
+			eng = sc.nextInt();
+			mat = sc.nextInt();
+			tot = kor + eng + mat;
+			avg = (double)tot / 3;
+			rank = 1;
+			
+			names[count] = name;
+			kors[count] = kor;
+			engs[count] = eng;
+			mats[count] = mat;
+			tots[count] = tot;
+			avgs[count] = avg;
+			ranks[count] = rank;
+			
+			count++;
+			
+			System.out.print("> 계속 입력하시겠습니까(y) ? ");
+			one = (char)System.in.read();
+			System.in.skip(System.in.available());
+		} while(Character.toUpperCase(one) == 'Y');
+		
+		ranked(tots, ranks, count);
+		
+		printStudents(names, kors, engs, mats, tots, avgs, ranks, count);
+	}
+
+	private static void printStudents(String[] names, int[] kors, int[] engs, int[] mats, int[] tots, double[] avgs,
+			int[] ranks, int count) {
+		for (int i = 0; i < count; i++) {
+			System.out.printf("%d. %s\t%d\t%d\t%d\t%d\t%.2f\t%d\n"
+					, i+1, names[i], kors[i], engs[i], mats[i], tots[i], avgs[i], ranks[i]);
+		} // for
+	}
+
+	private static void ranked(int[] tots, int[] ranks, int count) {
+		for(int i=0; i<count; i++) {
+			for(int j=0; j<count; j++) {
+				if(tots[i] < tots[j]) {
+					ranks[i]++;
+				}
+			}
+		}
+	}
+}
+  
+2. int [] m = { 3, 92, 3, 40, 71, 91, 61, 92, 76, 71, 59, 54, 64, 48, 66, 92, 25, 20, 73, 37 };
+   1)  m 배열의 max 값과  
+   2)  max의 모든 index를 찾아서 배열에 저장 후 출력하는 코딩을 하세요. 
+   [실행 결과]
+   max = 92
+   index =   1, 7, 15
+
+		int [] m = { 3, 92, 3, 40, 71, 91, 61, 92, 76, 71, 59, 54, 64, 48, 66, 92, 25, 20, 73, 37 };
+		int[] maxPos = new int[m.length];
+		int maxPosIndex = 0;
+		int max = m[0];
+		int index = 0; // max 첫위치
+		
+		for (int i = 1; i < m.length; i++) {
+			if(max < m[i]) {
+				 max = m[i];
+				 index = i;
+			}
+		} // for
+		
+		for (int i = index; i < m.length; i++) {
+			if(max == m[i]) {
+				maxPos[maxPosIndex++] = i;
+			}
+		} // for
+		
+		for (int i = 0; i < maxPosIndex; i++) {
+			System.out.print(maxPos[i] + ",");
+		} // for
+
+3. int [] m =  {3,5,2,4,1};
+   정수 4가 있는 위치에 100을 삽입하는 코딩을 하세요.   
+
+	public static void main(String[] args) {
+		int index = 0;
+		int [] m =  {3,5,2,4,1};
+		
+		for(int i=0; i<m.length; i++) {
+			if(m[i] == 4) {
+				index = i;
+				break;
+			}
+		}
+		int n = 100;
+		
+		int[] temp = new int[m.length+1];
+		
+		System.arraycopy(m, 0, temp, 0, index);
+		temp[index] = n;
+		System.arraycopy(m, index, temp, index+1, m.length-index);
+		
+		m = temp;
+		
+		System.out.println(Arrays.toString(m));
+	}

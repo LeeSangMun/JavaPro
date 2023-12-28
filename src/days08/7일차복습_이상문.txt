@@ -1,0 +1,88 @@
+﻿1. 함수(메서드)의 정의
+	
+	반복되는 문장들을 하나로 묶어 재사용할 수 있도록 만든 것
+
+2. 함수(메서드)를 선언하세요.. 
+  1) 0~100 사이의 점수를 입력받아서 유효성 검사를 한 점수를 반환하는 함수 선언
+  2) 점수를 매개변수로 받아서 수우미양가 문자를 반환하는 함수 선언
+  3) 정수를 가변 매개변수(인자)로 받아서 합을 반환하는 함수 선언
+  4) 한 문자를 매개변수로 받아서 대문자로 바꿔서 반환하는 함수 선언
+
+	1) 
+	public static int v() {
+		int n = 0;
+		
+		try(Scanner sc = new Scanner(System.in)) {
+			while(true) {
+				System.out.printf("> 정수(0~100)를 입력하세요 ? ");
+				n = sc.nextInt();
+				if(0 <= n && n <= 100) {
+					break;
+				}
+				System.out.println("잘못 입력 하셨습니다. ");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return n;
+	}
+
+	2)
+	public static  char getGrade(int score) {
+		switch(score/10) {
+			case 10: case 9:
+				return '수';
+			case 8:
+				return '우';
+			case 7:
+				return '미';
+			case 6:
+				return '양';
+		}
+
+		return '가';
+	}
+
+	3)
+	public static int sum(int... arr) {
+		int sum = 0;
+		
+		for(int n : arr) {
+			sum += n;
+		}
+		
+		return sum;
+	}
+
+	4)
+	public static char toUpperCase(char ch) {
+		return Character.toUpperCase(ch);
+	}
+
+3. 오버로딩(overloading)에 대해서 설명하세요. 
+   	같은 이름의 메서드들을 정의한 것이다.
+	메서드의 이름은 같지만 매개변수의 갯수나 타입이 다른 것들이다.
+
+4. 피보나치 수열의 10개 항의 합을 출력
+  1+1+2+3+5+8+13+21+34+55 =143
+  [        항10개       ]   
+
+	public static void main(String[] args) {	
+		int firTerm = 1;
+		int secTerm = 1;
+		int nextTerm = 0;
+		int sum = firTerm + secTerm;
+		
+		System.out.printf("%d+%d+", firTerm, secTerm);
+		
+		for(int i=0; i<8; i++) {
+			nextTerm = firTerm + secTerm;
+			System.out.printf(i == 7 ? "%d" : "%d+", nextTerm);
+			sum += nextTerm;
+			firTerm = secTerm;
+			secTerm = nextTerm;
+		}
+		
+		System.out.printf("=%d\n", sum);
+	}

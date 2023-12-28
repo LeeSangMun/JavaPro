@@ -1,0 +1,168 @@
+﻿1.  "1. Java 팀 구성.txt" 파일을 읽어와서
+    HashMap 컬렉션 클래스를 사용해서 
+    key   - TeamVO (name, totalNumber , leader ) 
+    value - ArrayList<MemberVO>
+    로 저장해서 출력하는 코딩을 하세요. 
+    ( 조건 1: key 값으로 TeamVO 클래스 선언 )
+    ( 조건 2: value 값으로 어제 선언한 MemberVO 클래스 사용 )
+
+ [출력형식]
+ 
+[1조(7명) - 이경서]
+  [1] 신종혁
+  [2] 이재영
+  [3] 송해영
+  [4] 신기범
+  [5] 이준희
+  [6] 김성준 
+[2조(7명) - 박민석]
+  [1] 유희진
+  [2] 고경림
+  [3] 임경재
+  [4] 이지현
+  [5] 김정주
+  [6] 김호영  
+[3조(6명) - 박정호]
+  [1] 이상문
+  [2] 이주영
+  [3] 정하영
+  [4] 이동현
+  [5] 주강민   
+
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		String fileName = ".\\src\\days25\\1. Java 팀 구성.txt";
+		
+		HashMap<TeamVO, ArrayList<MemberVO>> teams = new LinkedHashMap<>();
+		
+		try(FileReader fr = new FileReader(fileName);
+				BufferedReader br = new BufferedReader(fr)) {
+			String line = null;
+			ArrayList<MemberVO> teamList = null;
+			String teamName = "";
+			String teamLeader = "";
+			String[] teamNames = null;
+			TeamVO teamVO = null;
+			MemberVO memberVO = null;
+			
+			while ((line = br.readLine()) != null && !line.equals("")) {
+				teamName = line;
+				
+				line = br.readLine();
+				teamNames = line.split("\\s*,\\s*");
+				teamLeader = Stream.of(teamNames).filter(s -> s.contains(("(팀장)"))).findFirst().get().replace("(팀장)", "");
+				teamVO = new TeamVO(teamName, teamNames.length, teamLeader);
+				teams.put(teamVO, new ArrayList<>());
+				teamList = teams.get(teamVO);
+				
+				for (String name : teamNames) {
+					if(name.contains("(팀장)")) {
+						memberVO = new MemberVO(teamLeader, "팀장");
+						teamList.add(0, memberVO);
+					} else {
+						memberVO = new MemberVO(name, "팀원");
+						teamList.add(memberVO);
+					}
+				}
+			}
+			
+			Set<Entry<TeamVO, ArrayList<MemberVO>>> se = teams.entrySet();
+			Iterator<Entry<TeamVO, ArrayList<MemberVO>>> ir = se.iterator();
+			int index = 1;
+			while (ir.hasNext()) {
+				index = 1;
+				Entry<TeamVO, ArrayList<MemberVO>> entry = ir.next();
+				teamVO = entry.getKey();
+				teamList = entry.getValue();
+				System.out.printf("[%s(%d명) - %s]\n", teamVO.getName(), teamVO.getTotalNumber(), teamVO.getLeader());
+				Iterator<MemberVO> ir2 = teamList.iterator();
+				ir2.next();
+				while (ir2.hasNext()) {
+					memberVO = ir2.next();
+					System.out.printf("   [%d] %s\n", index++, memberVO.getName());
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+    
+ 2-1.  제네릭스(Generics) 란 ?
+
+	다양한 타입의 객체를 다루는 메서드나 컬렉션 클래스에서
+	컴파일 시 타입을 체크해 주는 기능이다.
+
+ 2-2. 제네릭스의 장점 
+
+	1. 객체의 타입 안정성을 보장한다.
+	2. 형변환의 번거로움이 줄어든다.(코드 간결)
+
+ 2-3. 제네릭 클래스 선언 형식
+
+	Box - 원시 타입, T - 타입 매개변수, Box<T> - 제네릭 클래스
+	class Box<T> {}
+
+ 2-4. 용어 정리
+    
+    clas Box<T>{}
+    
+   위의 제네틱 클래스 선언을 보고
+    1) 원시 타입(raw Type)을 적으세요.
+
+	Box
+
+    2)타입변수을 적으세요.
+
+	T
+
+    3) 제네릭 클래스을 적으세요.
+
+	Box<T>
+
+    
+    Box<String> b = new Box<>();
+    4) 대입된 타입을 적으세요.
+
+	String
+
+    5) 제네릭 타입 호출
+
+	
+
+ 2-5. 제한된 제네릭 클래스에 대해서 설명하세요.  
+    class FruitBox<T extends Fruit & Eatable> extends Box<T>{
+    }    
+
+	매개변수 T는 Fruit과 그 자손들이고 Eatable 인터페이스를 구현한 클래스가 와야 한다.
+
+ 2-6.  와일드 카드에 대해서 설명하세요. 
+    static Juice makeJuice(FruitBox<? extends Fruit> box){
+    }
+
+	만약 와일드 카드가 없다면 FuritBox<Fruit>, FuritBox<Apple> 등등 
+	오버로딩으로 선언해야하는데 제네릭은 오버로딩 조건에 안맞는다.
+	그래서 어떤 것이 올지 모를 때 ? 와일드 카드를 선언해 준다.
+
+ 2-7. 제네릭 메서드란 ? 
+
+	메서드에 <T>를 붙어 만든다. 클래스에 있는<T>와는 상관없다.
+
+ 2-8. 제네릭 메서드 선언 형식을 적으세요. 
+
+	// static <T> Juice makeJuice
+
+ 3-1. 열거형(enums)이란 ?
+
+	서로 관련된 상수를 편리하게 사용하기 위한것
+ 
+ 3-2. 열거형의 선언 형식을 적으세요.       
+
+	enum 열거형이름 { 
+		상수명, 상수명,  ...
+	}       

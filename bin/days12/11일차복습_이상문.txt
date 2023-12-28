@@ -1,0 +1,118 @@
+﻿1. 선택정렬 selectionSort()  함수만 구현하세요.
+
+	public static void selectionSort(int[] m) {
+		int minIndex = 0;
+		
+		for (int i = 0; i < m.length-1; i++) {
+			minIndex = i;
+			for (int j = i+1; j < m.length; j++) {
+				if(m[minIndex] > m[j]) {
+					minIndex = j;
+				}
+			} // for
+			int temp = m[i];
+			m[i] = m[minIndex];
+			m[minIndex] = temp;
+		} // for
+	}
+
+2. 30명의 학생의 이름,국,영,수,총,평,등수 처리하는 코딩을 하세요.
+
+public class Ex01 {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		final int STUDENT_COUNT = 30;
+		String[] names = new String[STUDENT_COUNT];
+		double[] avgs = new double[STUDENT_COUNT];
+		int[][] infos = new int[STUDENT_COUNT][5];
+		
+		int count = 0;
+		char con = 'Y';
+		
+		do {
+			System.out.print("> 학생 이름 국어 영어 수학 입력 ? ");
+			names[count] = sc.next();
+			infos[count][0] = sc.nextInt();
+			infos[count][1] = sc.nextInt();
+			infos[count][2] = sc.nextInt();
+			infos[count][3] = infos[count][0] + infos[count][1] + infos[count][2];
+			infos[count][4] = 1;
+			avgs[count] = (double)infos[count][3] / 3;
+			
+			count++;
+			
+			System.out.print("> 계속 하시겠습니까(y) ? ");
+			con = (char)System.in.read();
+			System.in.skip(System.in.available());
+		} while(Character.toUpperCase(con) == 'Y');
+		
+		ranked(infos, count);
+		printStudentInfo(infos, names, avgs, count);
+	}
+
+	private static void printStudentInfo(int[][] infos, String[] names, double[] avgs, int count) {
+		for (int i = 0; i < count; i++) {
+			System.out.printf("%d. %s\t%d\t%d\t%d\t%d\t%.2f\t%d등\n",
+					i+1, names[i], infos[i][0], infos[i][1], infos[i][2],
+							infos[i][3], avgs[i], infos[i][4]);
+		} // for
+	}
+
+	private static void ranked(int[][] infos, int count) {
+		for (int i = 0; i < count; i++) {
+			infos[i][4] = 1;
+			for (int j = 0; j < count; j++) {
+				if(infos[i][3] < infos[j][3]) {
+					infos[i][4]++;
+				}
+			} // for
+		} // for
+	}
+}
+ 
+3. 순차검색 sequentialSearch() 함수 구현해서 
+   배열 안의 임의의 정수를 찾아서 인덱스를 모두 출력
+   하는 코딩을 하세요 ...
+   (조건)
+   int [] m = new int[50];
+   1~30 까지의 임의의 수를 채워넣고
+
+public class Ex01 {
+	public static void main(String[] args) throws IOException {
+		int[] m = new int[50];
+		Arrays.setAll(m, (i) -> (int)(Math.random()*30)+1);
+		System.out.println(Arrays.toString(m));
+		
+		int n = 5;
+		System.out.printf("찾고 싶은 수(%d)의 인덱스 : ", n);
+		int beginIndex = 0;
+		int index;
+		boolean flag = false;
+		
+		while((index = sequentialSearch(m, beginIndex, n)) != -1) {
+			System.out.print("[" + index + "] ");
+			beginIndex = index + 1;
+			flag = true;
+		}
+		
+		if(!flag) {
+			System.out.println("찾지 못했습니다.");
+		}
+	}
+
+	private static int sequentialSearch(int[] m, int beginIndex, int n) {
+		for (int i = beginIndex; i < m.length; i++) {
+			if(m[i] == n) return i;
+		} // for
+		
+		return -1;
+	}
+}
+
+
+4.아래 1차원 배열 m 의 값을 2차원 배열 n에 채워넣는 변환코딩을 하세요.
+  int [] m = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12  };
+  int [][] n = new int[6][2];  
+
+
+

@@ -1,0 +1,146 @@
+﻿1. private로 선언된 필드에 대해서 설명하세요.
+
+	1. 필드의 유효성 검사를 할 수 있다.
+	2. 필드를 읽기전용 쓰기전용으로 할 수 있다.
+	3. getter, setter를 이용할 수 있다.
+	
+	private int age; // 다른 클래스에서 접근 불가
+	public void setAge(int age) { // setter를 이용해 값을 변경
+		if(0 <= age && age <= 130) { // 유효성 검사
+			this.age = age;
+		} else {
+			throw new RuntimeException("정확한 나이가 아님")
+		}
+	}
+
+
+2. 기본형/참조형 매개변수에 대해서 설명하세요. 
+
+	기본형 매개변수 : 단지 값만을 전달한다.
+
+	int sum(int a, int b) {
+		rerturn a+ b;
+	}
+
+	참조형 매개변수 : 주소값을 전달 해 복사가 일어난다.
+
+	
+
+
+2-2.기본형/참조형 반환타입에 대해서 설명하세요.
+
+	기본형 반환타입 - 단지 값만을 리턴한다.
+
+	참조형 반환타입 - 객체의 주조값을 반환한다.
+
+
+3. 생성자에 대해서 설명하세요.
+
+	1. 메서드의 일종이다.
+	2. 생성자명과 클래스명이 같다
+	3. 생성자는 리턴자료형을 사용하지 않는다. return문도 없다.
+	4. 접근지정자 4가지 사용가능하고 기타제어자는 사용하지 않는다.
+	5. 매개변수가 없는 생성자를 디폴트 생성자라고 한다.
+	6. 생성자 오버로딩이 가능하다.
+	7. 생성자는 필드초기화를 위해 있는 것이다.
+	8. 클래스에 생성자가 하나도 없을 경우 컴파일러가 자동으로 
+		디폴트 생성자를 추가 후 컴파일한다.
+	9. 생성자는 인위적으로 호출할 수 없다.
+		호출 시기는 new 연산자로 객체가 생성될 때 자동으로 호출된다.
+	10. 디폴트 생성자가 없고 생성자 오버로딩이 되어있다면 
+		생성자가 하나이상이라 디폴트 생성자는 자동으로 생성되지 않는다.
+	11. 생성자는 상속 불가능
+
+4. this 키워드에 대해서 설명하세요.
+
+	this는 객체 자기 자신의 주소값을 가지는 참조변수이다. 단 static 메서드에서는 사용불가능
+	1) 멤버를 가리키는 this
+	Member(String name) {
+		this.name = name;  // this가 없으면 지역변수로 간주된다.
+	}
+	
+	2) 생성자에서 다른 생성자를 호출할 때 사용하는 this
+	Member( ) {
+		this("익명"); // 다른 생성자를 호출할 때는 무조건 첫줄에 위치한다.
+	}
+
+	3) 단독으로 사용하는 this
+
+	StringBuilder 클래스에 append()메서드가 this를 반환한다. 그래서 연속으로 사용가능
+
+5. static 키워드에 대해서 설명하세요.
+
+	1. 인스턴스가 생성될 때 마다 필드가 생성되지 않는다.
+	2. Method Area에 생성된다.
+	3. 모든 객체가 공유한다.
+
+6. 필드(멤버변수)를 초기화 하는 방법에 대해서 설명하세요
+
+	[인스턴스 변수]
+	String name; // 기본값으로 초기화 null로 초기화 됨
+	int age = 20; // 명시적 초기화
+	
+	{	// 인스턴스 초기화 블럭
+		name = "홍길동"
+	}
+
+	// 생성자 초기화
+	public Member(String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	[static 변수]
+	static double rate;	// 기본값으로 초기화 0.0 또는 0.0d
+	static double rate = 0.04;  // 명시적 초기화
+
+	static { // static 초기화 블럭
+		rate = 0.08;
+	}
+
+6-2. 필드 초기화 우선 처리 순위에 대해서 설명하세요
+
+	static 변수
+	기본값 초기화 -> 명시적 초기화 -> static 초기화 블럭
+
+	인스턴스 변수
+	기본값 초기화 -> 명시적 초기화 -> 인스턴스 초기화 블럭 -> 생성자
+
+7. 클래스 간의 관계에 대해서 설명하세요 .
+
+	has-a(포함관계) - 클래스가 다른 클래스를 멤버로 갖고 있다. 
+
+	class Car {
+		Engine engine;
+	}	
+	
+	is-a(상속관계)
+
+8.   [취업 문제] ego(자아)
+  String n = "keNik";   
+  String m= "kKnie";   
+  
+  위의 두 문자열 n, m 이 알파벳과 알파벳갯수가 똑같은지 비교하는 코딩 
+  결과는 같을 경우 true/ 다를 경우 false 로 출력.
+  조건) 대소문자는 구분하지 않는다.  
+
+	public static void main(String[] args) {
+		String n = "keNik";   
+		String m= "kKnie"; 
+		
+		n = n.toUpperCase();
+		m = m.toUpperCase();
+		
+		char[] nArr = n.toCharArray();
+		char[] mArr = m.toCharArray();
+		
+		Arrays.sort(nArr);
+		Arrays.sort(mArr);
+		
+		System.out.println(new String(nArr).equals(new String(mArr)));
+	}
+
+
+
+
+
